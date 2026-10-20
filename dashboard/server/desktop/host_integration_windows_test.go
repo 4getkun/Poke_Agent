@@ -65,7 +65,9 @@ func testRealWebViewBootstrapAndClose(t *testing.T, hidden bool) {
 	server := &http.Server{Handler: mux}
 	defer server.Close()
 	go server.Serve(listener)
-	timer := time.AfterFunc(20*time.Second, func() { h.Close() })
+	// A fresh hosted Windows runner can spend over 20 seconds creating its
+	// first controller. This is a harness deadline, not a readiness assertion.
+	timer := time.AfterFunc(60*time.Second, func() { h.Close() })
 	defer timer.Stop()
 	if err = h.Run(nil); err != nil {
 		t.Fatal(err)
