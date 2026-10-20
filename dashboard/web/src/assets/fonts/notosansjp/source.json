@@ -1,0 +1,107 @@
+{
+  "family": "Noto Sans JP",
+  "source_repository": "https://github.com/google/fonts",
+  "source_commit": "47d54ca1ebb14fd864695f1d39dc734f39017c33",
+  "source_file_url": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/notosansjp/NotoSansJP[wght].ttf",
+  "source_download_url": "https://raw.githubusercontent.com/google/fonts/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf",
+  "source_sha256": "c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f",
+  "source_bytes": 9589900,
+  "conversion": "FontTools TTFont + instantiateVariableFont(wght=400/700, updateFontNames=True) to static instances, WOFF2 output; no subsetting; cmap/glyph set compared",
+  "source_cmap_codepoints": 16732,
+  "source_glyph_count": 17936,
+  "source_empty_outline_glyph_count": 5,
+  "fonts": {
+    "400": {
+      "file": "NotoSansJP-Regular.woff2",
+      "weight": 400,
+      "output_sha256": "b746c18b3a0553ea9414506928a44a1a1d9168d2198e6944d757440fca907417",
+      "output_bytes": 2303072,
+      "cmap_codepoints": 16732,
+      "cmap_exactly_preserved": true,
+      "glyph_count": 17936,
+      "empty_outline_glyph_count": 5,
+      "name_ids_1_2_4_6": {
+        "1": [
+          "Noto Sans JP"
+        ],
+        "2": [
+          "Regular"
+        ],
+        "4": [
+          "Noto Sans JP Regular"
+        ],
+        "6": [
+          "NotoSansJP-Regular"
+        ]
+      },
+      "OS2_usWeightClass": 400,
+      "example_check": {
+        "user-sentences": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "user-profile-names": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "ascii-upper-lower-digits-and-arrows": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "card-ui-and-japanese": {
+          "missing": [],
+          "empty_outline": []
+        }
+      }
+    },
+    "700": {
+      "file": "NotoSansJP-Bold.woff2",
+      "weight": 700,
+      "output_sha256": "428286a56a0cf22cb711983fe0de8b193f4a0ac4defab487ccd6cb0397f1275d",
+      "output_bytes": 2352420,
+      "cmap_codepoints": 16732,
+      "cmap_exactly_preserved": true,
+      "glyph_count": 17936,
+      "empty_outline_glyph_count": 5,
+      "name_ids_1_2_4_6": {
+        "1": [
+          "Noto Sans JP"
+        ],
+        "2": [
+          "Bold"
+        ],
+        "4": [
+          "Noto Sans JP Bold"
+        ],
+        "6": [
+          "NotoSansJP-Bold"
+        ]
+      },
+      "OS2_usWeightClass": 700,
+      "example_check": {
+        "user-sentences": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "user-profile-names": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "ascii-upper-lower-digits-and-arrows": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "card-ui-and-japanese": {
+          "missing": [],
+          "empty_outline": []
+        }
+      }
+    }
+  },
+  "license": {
+    "file": "OFL.txt",
+    "url": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/notosansjp/OFL.txt",
+    "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "bytes": 4388
+  }
+}

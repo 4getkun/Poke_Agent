@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "M PLUS 1p";
+  src: url("../assets/fonts/mplus1p/MPLUS1p-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+.win-desk .activity-map__bubble strong,
+.win-desk .activity-map__bubble > span {
+  font-family: "M PLUS 1p", "Meiryo", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-synthesis: none;
+  line-height: 22px;
+  letter-spacing: 0;
+}
+
+.win-desk .activity-map__bubble strong { font-size: 16px; }
+.win-desk .activity-map__bubble > span { font-size: 18px; }

@@ -1,0 +1,10 @@
+# Build artifacts
+pokegents-dashboard
+*.db
+
+# Frontend
+web/node_modules/
+web/dist/
+
+# OS
+.DS_Store

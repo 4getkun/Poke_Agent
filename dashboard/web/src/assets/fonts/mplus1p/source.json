@@ -1,0 +1,36 @@
+{
+  "family": "M PLUS 1p",
+  "subfamily": "Bold",
+  "weight": 700,
+  "license": "SIL Open Font License 1.1",
+  "licenseFile": "OFL.txt",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/mplus1p/OFL.txt",
+  "repositoryUrl": "https://github.com/google/fonts/tree/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/mplus1p",
+  "fixedCommit": "47d54ca1ebb14fd864695f1d39dc734f39017c33",
+  "ttfSourceUrl": "https://raw.githubusercontent.com/google/fonts/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/mplus1p/MPLUS1p-Bold.ttf",
+  "ttfSha256": "76EB077B0A31CA33CA40238E47DA5A17E2786741607CEC09678D7D2E5AB1AFC1",
+  "ttfSizeBytes": 1766552,
+  "webFontFile": "MPLUS1p-Bold.woff2",
+  "webFontSha256": "00D2EFA910D15D817C6DECB3306998DE29D64230B2EE20417DB61E060907A32C",
+  "webFontSizeBytes": 745188,
+  "fontTools": {
+    "version": "4.66.0",
+    "conversionSteps": [
+      "Load the pinned Google Fonts static Bold TTF",
+      "fontTools.ttLib.woff2.compress(TTF, WOFF2)",
+      "Reload WOFF2 with checkChecksums=2",
+      "Verify best cmap matches source TTF"
+    ]
+  },
+  "coverage": {
+    "sourceBestCmapCodepointCount": 8331,
+    "testedSample": "マップ検証係作業中承認待ちツール実行中ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+    "testedCodepointCount": 80,
+    "coveredCodepointCount": 80,
+    "missingCodepoints": [],
+    "emptyOutlineCodepoints": [],
+    "woff2CmapMatchesTtf": true,
+    "sourceChecksumCheckChecksums2": "passed",
+    "woff2ChecksumCheckChecksums2": "passed"
+  }
+}

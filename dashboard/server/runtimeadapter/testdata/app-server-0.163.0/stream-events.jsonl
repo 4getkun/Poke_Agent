@@ -1,0 +1,3 @@
+{"method":"item/agentMessage/delta","params":{"threadId":"thread-fixture","turnId":"turn-fixture","delta":"日本"}}
+{"method":"item/agentMessage/delta","params":{"threadId":"thread-fixture","turnId":"turn-fixture","delta":"語の応答："}}
+{"method":"turn/completed","params":{"threadId":"thread-fixture","turn":{"id":"turn-fixture","status":"completed"}}}

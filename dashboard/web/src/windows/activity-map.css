@@ -1,0 +1,92 @@
+.activity-map {
+  --activity-ink: #213b4f;
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--activity-ink);
+  font-family: var(--win-font-ui);
+}
+
+.activity-map__viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 544 / 480;
+  overflow: hidden;
+  isolation: isolate;
+  background: #7eaa72;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px #557862, inset 0 0 0 4px rgb(240 245 226 / 44%), 0 3px 8px rgb(26 43 32 / 17%);
+}
+
+.activity-map__scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 544px;
+  height: 480px;
+  transform-origin: top left;
+  image-rendering: pixelated;
+}
+
+.activity-map__ground,
+.activity-map__town-image {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 544px;
+  height: 480px;
+  object-fit: fill;
+  image-rendering: pixelated;
+}
+
+.activity-map__actors,
+.activity-map__bubbles {
+  position: absolute;
+  inset: 0;
+  width: 544px;
+  height: 480px;
+}
+
+.activity-map__actors { z-index: 2; pointer-events: none; }
+.activity-map__bubbles { z-index: 5; overflow: hidden; pointer-events: none; }
+.activity-map__actor { position: absolute; display: grid; width: 38px; height: 42px; place-items: center; padding: 3px; left: 0; top: 0; transform: translate(-50%, -62%); background: transparent; border: 0; border-radius: 5px; cursor: pointer; pointer-events: auto; transition: left 860ms linear, top 420ms ease-out, filter 130ms ease; }
+.activity-map__actor:hover, .activity-map__actor:focus-visible { z-index: 4; filter: drop-shadow(0 0 3px #fff7b1) drop-shadow(0 0 6px #fff7b1); outline: 2px solid #fff4af; outline-offset: 1px; }
+.activity-map__actor.is-selected { z-index: 3; filter: drop-shadow(0 0 3px #fff18a) drop-shadow(0 0 7px #fff18a); }
+.activity-map__actor:not(.is-walking) { transition: filter 130ms ease; }
+.activity-map__anchor { position: absolute; width: 0; height: 0; transition: left 860ms linear, top 420ms ease-out; }
+.activity-map__anchor.is-walking { animation: activity-map-bob 420ms steps(2, end) infinite alternate; }
+.activity-map__sprite { position: absolute; inset: -3px; display: grid; place-items: center; transform-origin: center; }
+.activity-map__pixel-character { width: 28px; height: 33px; overflow: visible; image-rendering: pixelated; }
+.activity-map__assigned-sprite { image-rendering: pixelated; pointer-events: none; }
+.activity-map__empty { position: absolute; z-index: 3; inset: 0; display: grid; place-items: center; padding: 10px; color: #344d3e; text-align: center; text-shadow: 0 1px 0 rgb(255 255 255 / 75%); font-size: 17px; font-weight: 700; pointer-events: none; }
+
+/* The pixel frame, text, map, and actors all live in the same 544×480 scene. */
+.activity-map__bubble { position: absolute; z-index: 5; display: grid; width: 200px; height: 72px; align-content: start; gap: 2px; padding: 7px 15px 18px; color: #111; line-height: 1.25; }
+.activity-map__bubble-frame { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; overflow: visible; shape-rendering: crispEdges; filter: drop-shadow(2px 3px 0 rgb(22 39 31 / 26%)); }
+
+.activity-map__bubble strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #111; font: 400 16px/1.1 "MS Gothic", "Meiryo", monospace; }
+.activity-map__bubble > span { overflow: hidden; color: #111; font: 400 18px/1.1 "MS Gothic", "Meiryo", monospace; text-overflow: ellipsis; white-space: nowrap; }
+.activity-map__bubble.is-selected { z-index: 6; }
+.activity-map__bubble.is-selected .activity-map__bubble-frame { filter: drop-shadow(0 0 3px #ffe58a) drop-shadow(0 0 4px #ffe58a); }
+
+.activity-map__overflow { display: grid; min-width: 0; gap: 5px; }
+.activity-map__overflow h3 { margin: 0; color: #526171; font-size: 10px; font-weight: 700; }
+.activity-map__overflow-list { display: grid; max-height: 120px; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 4px; overflow: auto; }
+.activity-map__overflow-list > button { display: grid; min-width: 0; grid-template-columns: 25px minmax(0, 1fr) auto; align-items: center; gap: 6px; padding: 4px 7px; color: #344a5c; text-align: left; background: #f6f8f8; border: 1px solid #d5dee2; border-radius: 5px; cursor: pointer; font: inherit; }
+.activity-map__overflow-list > button.is-selected { background: #fff5d9; border-color: #c39a48; }
+.activity-map__overflow-list > button > strong, .activity-map__overflow-list > button > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.activity-map__overflow-list > button > strong { font-size: 10px; }
+.activity-map__overflow-list > button > span:last-child { color: #647681; font-size: 9px; }
+.activity-map__overflow-sprite { display: grid; width: 24px; height: 24px; place-items: center; overflow: hidden; }
+.activity-map__overflow-sprite .activity-map__pixel-character { width: 19px; height: 22px; }
+
+@keyframes activity-map-bob { from { margin-top: 0; } to { margin-top: -3px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .activity-map__anchor, .activity-map__anchor.is-walking, .activity-map__actor, .activity-map__bubble { animation: none; transition: filter 100ms ease; }
+}

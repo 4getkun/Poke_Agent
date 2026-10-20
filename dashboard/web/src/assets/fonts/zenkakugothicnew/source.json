@@ -1,0 +1,92 @@
+{
+  "family": "Zen Kaku Gothic New",
+  "source_repository": "https://github.com/googlefonts/zen-kakugothic",
+  "source_commit": "2705757e17e42954f3acbdf921ac0ae24d1270cd",
+  "conversion": "FontTools TTFont load/save with flavor=woff2; no subsetting; all cmap entries and font tables retained",
+  "fonts": {
+    "Regular": {
+      "file": "ZenKakuGothicNew-Regular.woff2",
+      "weight": 400,
+      "url": "https://github.com/googlefonts/zen-kakugothic/blob/2705757e17e42954f3acbdf921ac0ae24d1270cd/fonts/ttf/ZenKakuGothicNew-Regular.ttf",
+      "input_sha256": "b840cd07a67d89cacca44249ae49aa99ee7640eb5ce623be8d8983d6aabac801",
+      "output_sha256": "bf53efb94ea89c46e0613de24821af4b43dfe219f8ebf88f297a5e89b0e97203",
+      "cmap_codepoints": 7737,
+      "cmap_exactly_preserved": true,
+      "glyph_count": 7792,
+      "empty_outline_glyph_count": 4,
+      "sample_check": {
+        "card-ui-labels": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "japanese-kanji-kana": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "mixed-user-style-proxy": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "user-sentences": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "user-profile-names": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "ascii-upper-lower-digits-and-arrows": {
+          "missing": [],
+          "empty_outline": []
+        }
+      },
+      "converted_empty_outline_glyph_count": 4,
+      "woff2_cmap_codepoints": 7737
+    },
+    "Bold": {
+      "file": "ZenKakuGothicNew-Bold.woff2",
+      "weight": 700,
+      "url": "https://github.com/googlefonts/zen-kakugothic/blob/2705757e17e42954f3acbdf921ac0ae24d1270cd/fonts/ttf/ZenKakuGothicNew-Bold.ttf",
+      "input_sha256": "0081cedabc4921982fcd061f845a005664ac7fb642af2dd34b4007bc63ccd235",
+      "output_sha256": "f4ec3f966ce9e88be3e96e37502e3c9d694fcca1e9133698da84cc00b47a6b97",
+      "cmap_codepoints": 7737,
+      "cmap_exactly_preserved": true,
+      "glyph_count": 7792,
+      "empty_outline_glyph_count": 4,
+      "sample_check": {
+        "card-ui-labels": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "japanese-kanji-kana": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "mixed-user-style-proxy": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "user-sentences": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "user-profile-names": {
+          "missing": [],
+          "empty_outline": []
+        },
+        "ascii-upper-lower-digits-and-arrows": {
+          "missing": [],
+          "empty_outline": []
+        }
+      },
+      "converted_empty_outline_glyph_count": 4,
+      "woff2_cmap_codepoints": 7737
+    }
+  },
+  "license": {
+    "file": "OFL.txt",
+    "url": "https://github.com/googlefonts/zen-kakugothic/blob/2705757e17e42954f3acbdf921ac0ae24d1270cd/OFL.txt",
+    "sha256": "0fac78a235c98d640cb06332eb5362c211d86fa03c011df438c35005d22ad2c7",
+    "bytes": 4401
+  }
+}

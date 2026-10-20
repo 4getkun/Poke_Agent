@@ -1,0 +1,22 @@
+.active-agents {
+  min-width: 0;
+  color: #213b4f;
+  font-family: var(--win-font-ui);
+}
+.active-agents h3 { display: flex; align-items: center; gap: 7px; margin: 0 0 6px; font-size: 12px; }
+.active-agents h3 > span { display: inline-grid; min-width: 20px; height: 20px; place-items: center; padding: 0 5px; color: #fff; background: #397b55; border-radius: 10px; font-size: 11px; }
+.active-agents__empty { margin: 0; padding: 12px; color: #667981; background: #f1f5ef; border: 1px dashed #b7c7b8; border-radius: 7px; text-align: center; font-size: 11px; }
+.active-agents__list { display: grid; max-height: 170px; gap: 5px; margin: 0; padding: 1px 3px 1px 1px; overflow: auto; list-style: none; }
+.active-agents__item { display: grid; min-width: 0; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px; padding: 5px 7px; background: #f8faf5; border: 1px solid #d3dfd3; border-radius: 7px; }
+.active-agents__item.is-selected { background: #fff5d8; border-color: #c49c46; }
+.active-agents__identity { display: grid; min-width: 0; grid-template-columns: 37px minmax(0, 1fr); align-items: center; gap: 7px; padding: 0; color: inherit; text-align: left; background: transparent; border: 0; cursor: pointer; font: inherit; }
+.active-agents__avatar { position: relative; display: grid; width: 36px; height: 36px; place-items: center; overflow: hidden; background: #e8eee1; border: 1px solid #c7d4bf; border-radius: 50%; }
+.active-agents__avatar .activity-map__assigned-sprite { width: auto; height: auto; max-width: none; }
+.active-agents__avatar .activity-map__pixel-character { width: 24px; height: 29px; }
+.active-agents__details { display: grid; min-width: 0; gap: 1px; }
+.active-agents__details strong, .active-agents__status, .active-agents__task { overflow-wrap: anywhere; }
+.active-agents__details strong { color: #263f48; font-size: 11px; }
+.active-agents__status { color: #9a621f; font-size: 10px; }
+.active-agents__task { color: #5c6e73; font-size: 10px; }
+.active-agents__edit { align-self: start; padding: 3px 6px; color: #3d5e71; background: #edf2f4; border: 1px solid #ccd9de; border-radius: 5px; cursor: pointer; font: inherit; font-size: 10px; }
+.active-agents button:focus-visible { outline: 2px solid #286d9b; outline-offset: 2px; }

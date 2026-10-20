@@ -1,2 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Preserve upstream font-license bytes; source.json records their hashes.
+dashboard/web/src/assets/fonts/*/OFL.txt whitespace=-blank-at-eol

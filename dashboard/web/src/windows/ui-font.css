@@ -1,0 +1,48 @@
+@font-face {
+  font-family: "Zen Kaku Gothic New";
+  src: url("../assets/fonts/zenkakugothicnew/ZenKakuGothicNew-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zen Kaku Gothic New";
+  src: url("../assets/fonts/zenkakugothicnew/ZenKakuGothicNew-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans JP";
+  src: url("../assets/fonts/notosansjp/NotoSansJP-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans JP";
+  src: url("../assets/fonts/notosansjp/NotoSansJP-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --win-font-ui: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-synthesis: none;
+}
+
+.win-topbar {
+  --win-font-ui: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-family: var(--win-font-ui);
+}
+
+.win-desk-card__assignee { font-family: inherit; }
+
+.win-desk-card__head strong,
+.win-desk-card .win-desk-state,
+.win-desk-card .win-desk-approval,
+.win-desk-card__assignee-name { font-weight: 700; }
