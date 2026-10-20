@@ -64,7 +64,7 @@ SOFTWARE.
 - `github.com/mattn/go-sqlite3` is MIT and incorporates SQLite public-domain source; preserve its full license and source notices. Other Go dependency licenses are included in the generated notices.
 - The frontend dependency inventory contains MIT, ISC, Apache-2.0, BSD-3-Clause and CC-BY-4.0 entries; `caniuse-lite` is CC-BY-4.0 development data. It is included in the development SBOM, not presented as project-authored MIT code.
 - PE version resources are generated with `github.com/josephspurrier/goversioninfo v1.7.0` (MIT), a build tool, and its resource generator dependencies. Its source: https://github.com/josephspurrier/goversioninfo/tree/v1.7.0 . Build tools are not copied into the release.
-- Inno Setup produces the optional installer. Its compiler is not redistributed. GitHub Actions records the hosted runner, source commit and tool versions; the workflow uses existing hosted-runner Inno Setup and x64 GCC. The generated installer and application are unsigned until a separately approved signing operation succeeds.
+- Inno Setup produces the optional installer. Its compiler is not redistributed. GitHub Actions records the hosted runner, source commit and tool versions; the workflow uses hosted-runner Inno Setup and x64 GCC installed from the MSYS2 UCRT64 package repository. The generated installer and application are unsigned until a separately approved signing operation succeeds.
 - Legacy ACP source is Apache-2.0 and retains its own LICENSE. Its optional third-party provider SDK is not installed or bundled by the Windows build. Provider executables and account credentials are not redistributed.
 
 ## Asset boundary
