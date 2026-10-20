@@ -37,15 +37,19 @@ func (a renderProbeAssets) Open(name string) (fs.File, error) {
 // Bootstrap alone does not establish that the real embedded React UI renders.
 // This test observes DOM/layout in the actual WebView2 using a test-only script.
 func TestRealWebViewRendersEmbeddedWindowsUI(t *testing.T) {
-	testEmbeddedWindowsUI(t, false, false)
+	testEmbeddedWindowsUI(t, false, false, false)
+}
+
+func TestRealWebViewRendersVisibleWindowsUI(t *testing.T) {
+	testEmbeddedWindowsUI(t, false, false, true)
 }
 
 func TestRealWebViewNotificationOpensSavedTask(t *testing.T) {
-	testEmbeddedWindowsUI(t, true, false)
+	testEmbeddedWindowsUI(t, true, false, false)
 }
 
 func TestRealWebViewTerminalControlsUseRegisteredProject(t *testing.T) {
-	testEmbeddedWindowsUI(t, true, true)
+	testEmbeddedWindowsUI(t, true, true, false)
 }
 
 type terminalUIProbe struct{ requests chan [2]string }
@@ -57,7 +61,7 @@ func (p *terminalUIProbe) OpenTerminal(path, mode string) error {
 	return nil
 }
 
-func testEmbeddedWindowsUI(t *testing.T, activation, terminal bool) {
+func testEmbeddedWindowsUI(t *testing.T, activation, terminal, visible bool) {
 	testServer := newHTTPTestServer(t)
 	project := &d.Project{ID: "notification-project", Name: "native synthetic"}
 	terminalProbe := &terminalUIProbe{requests: make(chan [2]string, 2)}
@@ -101,11 +105,11 @@ window.addEventListener('unhandledrejection',e=>{if(errors.length<3)errors.push(
 async function inspect(){
   const app=document.querySelector('.win-app');
   if(sent)return;
-  if(!errors.length&&(!app||!document.querySelector('.win-workspace')||!document.fonts.check('12px "Zen Kaku Gothic New"')))return;
+  if(!errors.length&&(!app||!document.querySelector('.win-workspace')||!document.querySelector('.win-connection--live')||!document.fonts.check('12px "Zen Kaku Gothic New"')))return;
   sent=true;
   const rect=app?.getBoundingClientRect();
   const live=!!document.querySelector('.win-connection--live');
-  await fetch('/__native-render-health',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({app:!!app,live,width:rect?.width??0,height:rect?.height??0,buttons:app?.querySelectorAll('button').length??0,title:document.querySelector('.win-brand strong')?.textContent??'',fonts:document.fonts.check('12px "Zen Kaku Gothic New"'),errors})});
+  await fetch('/__native-render-health',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({app:!!app,live,visible:document.visibilityState==='visible',width:rect?.width??0,height:rect?.height??0,buttons:app?.querySelectorAll('button').length??0,title:document.querySelector('.win-brand strong')?.textContent??'',fonts:document.fonts.check('12px "Zen Kaku Gothic New"'),errors})});
 }
 new MutationObserver(inspect).observe(document.documentElement,{childList:true,subtree:true});
 document.fonts.addEventListener('loadingdone',inspect);
@@ -127,11 +131,11 @@ if(!errors.length){
 		"__native-render-probe.js": {Data: []byte(probeJS)},
 	}}
 	type health struct {
-		App, Live, Fonts bool
-		Width, Height    float64
-		Buttons          int
-		Title            string
-		Errors           []string
+		App, Live, Fonts, Visible bool
+		Width, Height             float64
+		Buttons                   int
+		Title                     string
+		Errors                    []string
 	}
 	result := make(chan health, 1)
 	var host *desktop.Host
@@ -186,7 +190,7 @@ if(!errors.length){
 		defer cancel()
 		testServer.Close(ctx)
 	}()
-	host = desktop.New(desktop.Options{Origin: testServer.Origin, Token: testServer.Token, DataPath: filepath.Join(t.TempDir(), "WebView2"), Hidden: true, OnError: func(err error) { t.Error(err) }})
+	host = desktop.New(desktop.Options{Origin: testServer.Origin, Token: testServer.Token, DataPath: filepath.Join(t.TempDir(), "WebView2"), Hidden: !visible, OnError: func(err error) { t.Error(err) }})
 	timer := time.AfterFunc(30*time.Second, host.Close)
 	defer timer.Stop()
 	began := time.Now()
@@ -198,7 +202,7 @@ if(!errors.length){
 		requestsMu.Lock()
 		authorized := authenticatedSnapshot
 		requestsMu.Unlock()
-		if !status.App || !authorized || !status.Fonts || status.Width < 640 || status.Height < 400 || status.Buttons < 5 || status.Title != "Pokegents for Windows" || len(status.Errors) != 0 {
+		if !status.App || !status.Live || !authorized || !status.Fonts || status.Width < 640 || status.Height < 400 || status.Buttons < 5 || status.Title != "Pokegents for Windows" || len(status.Errors) != 0 || (visible && !status.Visible) {
 			t.Fatalf("embedded UI failed native DOM/layout checks: %+v", status)
 		}
 		if activation {

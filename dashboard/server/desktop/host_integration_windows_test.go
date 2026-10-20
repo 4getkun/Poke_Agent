@@ -10,9 +10,20 @@ import (
 	"sync/atomic"
 	"testing"
 	"time"
+	"unsafe"
+
+	"github.com/lxn/win"
 )
 
 func TestRealWebViewBootstrapAndClose(t *testing.T) {
+	testRealWebViewBootstrapAndClose(t, true)
+}
+
+func TestRealWebViewVisibleBootstrapAndClose(t *testing.T) {
+	testRealWebViewBootstrapAndClose(t, false)
+}
+
+func testRealWebViewBootstrapAndClose(t *testing.T, hidden bool) {
 	listener, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
 		t.Fatal(err)
@@ -21,7 +32,18 @@ func TestRealWebViewBootstrapAndClose(t *testing.T) {
 	origin := "http://" + listener.Addr().String()
 	token := "temporary-test-token-in-memory"
 	var checked atomic.Bool
-	h := New(Options{Origin: origin, Token: token, DataPath: filepath.Join(t.TempDir(), "WebView2"), Hidden: true, OnError: func(err error) { t.Error(err) }})
+	var parentVisible, controllerVisible, controllerVisibilityRead atomic.Bool
+	var h *Host
+	h = New(Options{Origin: origin, Token: token, DataPath: filepath.Join(t.TempDir(), "WebView2"), Hidden: hidden, OnReady: func() {
+		if hidden {
+			return
+		}
+		parentVisible.Store(win.IsWindowVisible(h.hwnd))
+		var visible int32
+		hr := comCall(uintptr(unsafe.Pointer(h.chromium.GetController())), 3, uintptr(unsafe.Pointer(&visible)))
+		controllerVisibilityRead.Store(int32(hr) >= 0)
+		controllerVisible.Store(visible != 0)
+	}, OnError: func(err error) { t.Error(err) }})
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Security-Policy", "default-src 'self'; script-src 'self'; frame-src 'none'; object-src 'none'; sandbox allow-scripts allow-same-origin")
@@ -50,6 +72,9 @@ func TestRealWebViewBootstrapAndClose(t *testing.T) {
 	}
 	if !checked.Load() {
 		t.Fatal("trusted top frame bootstrap/fetch was not verified")
+	}
+	if !hidden && (!parentVisible.Load() || !controllerVisibilityRead.Load() || !controllerVisible.Load()) {
+		t.Fatalf("visible bootstrap state: parent=%v controllerRead=%v controller=%v", parentVisible.Load(), controllerVisibilityRead.Load(), controllerVisible.Load())
 	}
 	t.Log("real WebView2: initialize, trusted bootstrap, token-authenticated fetch and close succeeded")
 }

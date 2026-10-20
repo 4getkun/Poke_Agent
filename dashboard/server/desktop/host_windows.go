@@ -334,6 +334,10 @@ func (h *Host) Run(instance *Instance) error {
 	c.Navigate(h.options.Origin + "/")
 	if !h.options.Hidden {
 		win.ShowWindow(h.hwnd, win.SW_SHOW)
+		// The WebView controller has its own visibility, separate from its HWND.
+		if err := c.Show(); err != nil {
+			return err
+		}
 	}
 	c.Resize()
 	stop := make(chan struct{})
