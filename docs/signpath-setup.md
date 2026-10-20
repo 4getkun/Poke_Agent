@@ -5,6 +5,11 @@ Source: https://github.com/4getkun/Poke_Agent
 Download page: https://github.com/4getkun/Poke_Agent/releases
 Privacy: https://github.com/4getkun/Poke_Agent/blob/main/PRIVACY.md
 
+Repository secret scanning and push protection are enabled. The
+`signpath-release` environment accepts only the `main` branch; no API token or
+invented service account configuration is stored yet. Maintainer MFA is a service
+prerequisite to verify during account setup, not an assertion that it was checked.
+
 ## Signing boundary
 
 The initial artifact configuration `portable-v1` signs only `Pokegents.exe` from

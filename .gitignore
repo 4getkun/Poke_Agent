@@ -21,6 +21,12 @@
 *.p12
 *.pem
 /handoff.md
+/Pokegents-Windows-LLM-Agent-Spec.md
+/docs/plans/
+/docs/verification/
+/docs/protocol/
+/docs/windows-update-and-signing.md
+/distribution/site/
 /dashboard/logs/
 /dashboard/web/public/
 /dashboard/helpers/focus-window
