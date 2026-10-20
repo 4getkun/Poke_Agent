@@ -38,6 +38,10 @@ SignedUninstaller=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 
+[CustomMessages]
+english.AppCannotBeUpdated=Pokegents.exe is in use or cannot be opened for updating. Close Pokegents, including any background instance, then try again. If it is already closed, check write permissions for the installation folder. No application files have been replaced.
+japanese.AppCannotBeUpdated=Pokegents.exe が使用中、または更新用に開けません。バックグラウンドの起動分も含めて Pokegents を終了し、再試行してください。終了済みの場合は、インストール先の書き込み権限を確認してください。アプリのファイルはまだ置き換えていません。
+
 [Files]
 Source: "{#ArtifactsDir}\Pokegents.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#RepoRoot}\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
@@ -53,3 +57,25 @@ Source: "{#RepoRoot}\dashboard\web\src\assets\fonts\notosansjp\OFL.txt"; DestDir
 
 [Icons]
 Name: "{autoprograms}\Pokegents"; Filename: "{app}\Pokegents.exe"; WorkingDir: "{app}"; AppUserModelID: "4getkun.Pokegents"
+
+[Code]
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+var
+  AppPath: String;
+  Probe: TFileStream;
+begin
+  Result := '';
+  AppPath := ExpandConstant('{app}\Pokegents.exe');
+  if not FileExists(AppPath) then
+    Exit;
+
+  { Opening an existing file does not truncate or write it. Windows refuses
+    write access to a running executable, including older app versions. }
+  try
+    Probe := TFileStream.Create(AppPath, fmOpenReadWrite or fmShareDenyNone);
+    Probe.Free;
+  except
+    Log('Executable update preflight failed: ' + GetExceptionMessage);
+    Result := CustomMessage('AppCannotBeUpdated');
+  end;
+end;

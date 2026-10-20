@@ -85,6 +85,10 @@ jobs:
           Get-FileHash artifacts/Pokegents.exe,artifacts/Pokegents-Setup-*-x64.exe,artifacts/Pokegents-*-unsigned.zip -Algorithm SHA256 |
             Select-Object @{n='file';e={Split-Path $_.Path -Leaf}},Hash |
             ConvertTo-Json | Set-Content artifacts/checksums.json -Encoding utf8
+      - name: Verify installer refuses a running executable before replacement
+        shell: pwsh
+        run: |
+          ./scripts/test-installer-lock.ps1 -IsccPath (Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe')
       - name: Upload only application for SignPath origin verification
         id: signing_input
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
