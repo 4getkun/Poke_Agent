@@ -174,10 +174,17 @@ func TestVerifySignatureRejectsUnsignedExecutable(t *testing.T) {
 }
 
 func TestVerifySignatureAcceptsAndDetectsTamperedSDKTool(t *testing.T) {
-	signed := `C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\signtool.exe`
-	if _, err := os.Stat(signed); err != nil {
+	// Hosted Windows runners and local SDKs can have different installed versions.
+	// Still require a real SDK fixture: absence is a failure, never a skipped check.
+	sdkRoot := os.Getenv("ProgramFiles(x86)")
+	if sdkRoot == "" {
+		t.Fatal("Windows SDK fixture requires ProgramFiles(x86)")
+	}
+	fixtures, err := filepath.Glob(filepath.Join(sdkRoot, "Windows Kits", "10", "bin", "10.*", "x64", "signtool.exe"))
+	if err != nil || len(fixtures) == 0 {
 		t.Fatalf("SDK signed fixture unavailable: %v", err)
 	}
+	signed := fixtures[len(fixtures)-1]
 	sig, err := verifySignature(context.Background(), signed)
 	if err != nil || !hexHash(sig.Pin) || sig.Product == "" || sig.Version == "" {
 		t.Fatalf("verify signed SDK tool: signature=%+v err=%v", sig, err)
