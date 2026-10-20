@@ -1,0 +1,699 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  margin: 0;
+}
+
+:root {
+  --theme-font-display: 'Press Start 2P', system-ui;
+  --theme-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --theme-scanline-bg: repeating-linear-gradient(180deg, transparent 0px, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  --theme-font-body: var(--theme-font-mono);
+  --theme-type-xs: 6px;
+  --theme-type-s: 8px;
+  --theme-type-m: 10px;
+  --theme-type-l: 12px;
+  --theme-type-xl: 14px;
+  --theme-app-bg: #2a6858;
+  --theme-app-bg-rgb: 42 104 88;
+  --theme-app-text: #f8f8f0;
+  --theme-panel-bg: linear-gradient(180deg, #4a9888 0%, #3a7a6a 50%, #2a6858 100%);
+  --theme-panel-border: #1a4838;
+  --theme-panel-text: #e5edf7;
+  --theme-panel-subtle-bg: rgba(255,255,255,0.08);
+  --theme-panel-muted-bg: rgba(0,0,0,0.22);
+  --theme-panel-hover-bg: rgba(255,255,255,0.12);
+  --theme-panel-divider: rgba(255,255,255,0.12);
+  --theme-card-bg: linear-gradient(180deg, #58a0d8 0%, #4890c8 30%, #3878a8 100%);
+  --theme-card-bg-scanline: repeating-linear-gradient(180deg, transparent 0px, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px), linear-gradient(180deg, #58a0d8 0%, #4890c8 30%, #3878a8 100%);
+  --theme-card-border: #2860a0;
+  --theme-card-selected-bg: linear-gradient(180deg, #f89868 0%, #e87848 30%, #c86038 100%);
+  --theme-card-selected-bg-scanline: repeating-linear-gradient(180deg, transparent 0px, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px), linear-gradient(180deg, #f89868 0%, #e87848 30%, #c86038 100%);
+  --theme-card-selected-border: #a04828;
+  --theme-chat-bg: rgba(0, 0, 0, 0.55);
+  --theme-chat-panel-bg: linear-gradient(180deg, #3a78b0 0%, #2e6498 30%, #1f4878 100%);
+  --theme-chat-header-bg: rgba(0,0,0,0.10);
+  --theme-chat-message-user-bg: rgba(180,130,40,0.12);
+  --theme-chat-message-assistant-bg: rgba(255,255,255,0.03);
+  --theme-chat-message-system-bg: rgba(88,152,200,0.12);
+  --theme-chat-tool-bg: rgba(0, 0, 0, 0.45);
+  --theme-chat-input-bg: rgba(0,0,0,0.24);
+  --theme-dropdown-bg: var(--theme-card-bg-scanline);
+  --theme-dropdown-border: var(--theme-card-border);
+  --theme-dropdown-hover-bg: rgba(255,255,255,0.10);
+  --theme-dropdown-active-bg: rgba(248,216,48,0.16);
+  --theme-dialog-bg: #f8f8f0;
+  --theme-dialog-border: #484848;
+  --theme-dialog-text: #383838;
+  --theme-button-bg: linear-gradient(180deg, #a888b8 0%, #8870a0 100%);
+  --theme-button-bg-hover: linear-gradient(180deg, #b898c8 0%, #9880b0 100%);
+  --theme-button-border: #685880;
+  --theme-button-text: #f8f8f0;
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: rgba(255,255,255,0.78);
+  --theme-text-muted: rgba(255,255,255,0.55);
+  --theme-text-faint: rgba(255,255,255,0.35);
+  --theme-text-inverse: #383838;
+  --theme-accent-blue: #5898c8;
+  --theme-accent-blue-rgb: 88 152 200;
+  --theme-accent-yellow: #f8d830;
+  --theme-accent-yellow-rgb: 248 216 48;
+  --theme-accent-green: #58d898;
+  --theme-accent-green-rgb: 88 216 152;
+  --theme-accent-red: #f85858;
+  --theme-accent-red-rgb: 248 88 88;
+  --theme-accent-orange: #e87848;
+  --theme-accent-orange-rgb: 232 120 72;
+  --theme-accent-purple: #9878c8;
+  --theme-accent-purple-rgb: 152 120 200;
+  --theme-status-idle: #788890;
+  --theme-status-done: #58a868;
+  --theme-status-busy: #e87848;
+  --theme-status-needs-input: #d84848;
+  --theme-status-error: #a858a8;
+  --theme-status-starting: #5898c8;
+  --theme-diff-add-text: #4ade80;
+  --theme-diff-add-bg: rgba(74,222,128,0.08);
+  --theme-diff-remove-text: #f87171;
+  --theme-diff-remove-bg: rgba(248,113,113,0.08);
+  --theme-diff-meta-text: #22d3ee;
+  --theme-modal-scrim: rgba(0,0,0,0.44);
+  --theme-shadow-strong: 0 12px 48px rgba(0,0,0,0.9);
+  --theme-shadow-panel: inset 1px 1px 0 rgba(255,255,255,0.1), 2px 2px 0 rgba(0,0,0,0.15);
+  --theme-shadow-card: inset 1px 1px 0 rgba(255,255,255,0.25), inset -1px -1px 0 rgba(0,0,0,0.15), 2px 2px 0 rgba(0,0,0,0.15);
+  --theme-text-shadow-pixel: 1px 1px 0 rgba(0,0,0,0.5);
+  --theme-motion-scale: 1;
+  --theme-radius-panel: 8px;
+  --theme-radius-card: 8px;
+  --theme-radius-button: 16px;
+  --theme-modal-frame-outer: #1838a0;
+  --theme-modal-frame-shine: #6090e8;
+  --theme-modal-title-bg: linear-gradient(180deg, #5888e0 0%, #3060c0 100%);
+  --theme-modal-title-text-shadow: 1px 1px 0 #1030a0;
+  --theme-pc-box-shell-bg: linear-gradient(180deg, #2050b8 0%, #1840a0 100%);
+  --theme-pc-box-panel-bg: var(--theme-card-bg);
+  --theme-pc-box-panel-border: #3878b0;
+  --theme-pc-box-header-bg: linear-gradient(180deg, #6898e0 0%, #3868c0 100%);
+  --theme-pc-box-grid-light: #90c870;
+  --theme-pc-box-grid-dark: #78b058;
+  --theme-pc-box-cell-bg: rgba(0,0,0,0.12);
+  --theme-pc-box-cell-hover: rgba(80,148,240,0.55);
+  --theme-pc-box-cell-selected: rgba(56,120,240,0.75);
+  --theme-pc-box-cell-border: rgba(0,0,0,0.15);
+  --theme-pc-box-cell-hover-border: rgba(100,170,255,0.6);
+  --theme-pc-box-cell-selected-border: rgba(140,200,255,0.9);
+  --theme-pc-box-info-header-bg: rgba(96,152,192,0.5);
+  --theme-pc-box-info-text: #204880;
+  --theme-pc-box-name-text: #1848a0;
+  --theme-pc-box-action-primary-bg: linear-gradient(180deg, #5888e0 0%, #3060c0 100%);
+  --theme-pc-box-action-primary-border: #6090e0;
+  --theme-pc-box-action-secondary-bg: linear-gradient(180deg, #d09030 0%, #a06820 100%);
+  --theme-pc-box-action-secondary-border: #d09030;
+  --theme-radius-modal: 10px;
+  --agent-card-output-font-size: 10px;
+  --chat-panel-output-font-size: 13px;
+  --output-font-size: var(--agent-card-output-font-size);
+}
+
+body {
+  font-family: var(--theme-font-body);
+  background: var(--theme-app-bg);
+  color: var(--theme-app-text);
+}
+
+/* retro horizontal scanlines on background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* retro-style pixel borders */
+.gba-border {
+  border: 3px solid var(--theme-panel-border);
+  border-radius: var(--theme-radius-panel);
+  box-shadow: var(--theme-shadow-panel);
+}
+
+/* Blue card row style from Retro party screen */
+.gba-card {
+  background: var(--theme-card-bg-scanline);
+  border: 2px solid var(--theme-card-border);
+  border-radius: var(--theme-radius-card);
+  box-shadow: var(--theme-shadow-card);
+}
+
+/* Orange selected card (like Charizard's highlighted card) */
+.gba-card-selected {
+  background: var(--theme-card-selected-bg-scanline);
+  border: 2px solid var(--theme-card-selected-border);
+  border-radius: var(--theme-radius-card);
+  box-shadow: var(--theme-shadow-card);
+}
+
+/* Retro HP bar style */
+.gba-hp-bar {
+  background: #303030;
+  border: 1px solid #181818;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+/* retro dialog box (like "Choose a avatar.") */
+.gba-dialog {
+  background: var(--theme-dialog-bg);
+  border: 3px solid var(--theme-dialog-border);
+  border-radius: 6px;
+  box-shadow: var(--theme-shadow-panel);
+  color: var(--theme-dialog-text);
+}
+
+/* Dark variant of retro dialog for chat panel */
+.gba-dialog-dark {
+  background: var(--theme-panel-muted-bg);
+  border: 2px solid var(--theme-panel-divider);
+  border-radius: 6px;
+  box-shadow: var(--theme-shadow-panel);
+  color: var(--theme-panel-text);
+}
+
+/* retro button (like CANCEL) */
+.gba-button {
+  background: var(--theme-button-bg);
+  border: 2px solid var(--theme-button-border);
+  border-radius: var(--theme-radius-button);
+  color: var(--theme-button-text);
+  box-shadow: var(--theme-shadow-panel);
+  text-shadow: var(--theme-text-shadow-pixel);
+}
+
+.gba-button:hover {
+  background: var(--theme-button-bg-hover);
+}
+
+.gba-button-red {
+  background: linear-gradient(180deg, #b86858 0%, #a04838 100%);
+  border: 2px solid #804030;
+  border-radius: 16px;
+  color: #f8f0f0;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.2),
+    1px 1px 0 rgba(0,0,0,0.3);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+.gba-button-red:hover {
+  background: linear-gradient(180deg, #c87868 0%, #b05848 100%);
+}
+
+/* Teal panel (like the left panel behind Charizard) */
+.gba-panel {
+  background: var(--theme-panel-bg);
+  border: 2px solid var(--theme-panel-border);
+  border-radius: var(--theme-radius-panel);
+  box-shadow: var(--theme-shadow-panel);
+  color: var(--theme-panel-text);
+}
+
+.gba-dropdown-panel {
+  background: var(--theme-dropdown-bg);
+  border: 2px solid var(--theme-dropdown-border);
+  border-radius: var(--theme-radius-panel);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.55), var(--theme-shadow-card);
+  color: var(--theme-panel-text);
+}
+
+/* Pixel text shadow (retro style) */
+.pixel-shadow {
+  text-shadow: var(--theme-text-shadow-pixel);
+}
+
+/* retro-style scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
+
+/* ─── Sprite Animation System ─────────────────────────────────── */
+/* Each animation is a one-shot that plays once then the JS reverts to sprite-idle */
+
+/* Default idle: gentle hover */
+@keyframes sprite-idle-kf {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.sprite-idle {
+  animation: sprite-idle-kf 1.5s ease-in-out infinite;
+}
+
+/* Slow idle: half height, double duration — for done/idle agents */
+@keyframes sprite-idle-slow-kf {
+  0%, 100% { transform: translateY(1px); }
+  50% { transform: translateY(-1px); }
+}
+.sprite-idle-slow {
+  animation: sprite-idle-slow-kf 3s ease-in-out infinite;
+}
+
+/* Hop: quick bounce up */
+@keyframes sprite-hop-kf {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-8px); }
+  50% { transform: translateY(-8px) scaleY(1.05); }
+  70% { transform: translateY(0); }
+  85% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+.sprite-hop {
+  animation: sprite-hop-kf 0.6s ease-out;
+}
+
+/* Jump: bigger hop with squash & stretch */
+@keyframes sprite-jump-kf {
+  0% { transform: translateY(0) scaleX(1) scaleY(1); }
+  15% { transform: translateY(1px) scaleX(1.1) scaleY(0.9); }
+  40% { transform: translateY(-14px) scaleX(0.9) scaleY(1.1); }
+  70% { transform: translateY(0) scaleX(1) scaleY(1); }
+  85% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+.sprite-jump {
+  animation: sprite-jump-kf 0.5s ease-out;
+}
+
+/* Bump right: quick lunge to the right */
+@keyframes sprite-bump-right-kf {
+  0% { transform: translateX(0); }
+  30% { transform: translateX(5px) rotate(3deg); }
+  60% { transform: translateX(-1px); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+.sprite-bump-right {
+  animation: sprite-bump-right-kf 0.5s ease-out;
+}
+
+/* Bump left: quick lunge to the left */
+@keyframes sprite-bump-left-kf {
+  0% { transform: translateX(0); }
+  30% { transform: translateX(-5px) rotate(-3deg); }
+  60% { transform: translateX(1px); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+.sprite-bump-left {
+  animation: sprite-bump-left-kf 0.5s ease-out;
+}
+
+/* Shake: rapid side-to-side */
+@keyframes sprite-shake-kf {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-3px); }
+  30% { transform: translateX(3px); }
+  45% { transform: translateX(-3px); }
+  60% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+  90% { transform: translateX(1px); }
+}
+.sprite-shake {
+  animation: sprite-shake-kf 0.6s ease-out;
+}
+
+/* Wiggle: gentle rock */
+@keyframes sprite-wiggle-kf {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-4deg); }
+  40% { transform: rotate(4deg); }
+  60% { transform: rotate(-3deg); }
+  80% { transform: rotate(2deg); }
+}
+.sprite-wiggle {
+  animation: sprite-wiggle-kf 0.8s ease-in-out;
+}
+
+/* Nod: subtle dip forward */
+@keyframes sprite-nod-kf {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(2px) rotate(3deg); }
+  60% { transform: translateY(1px) rotate(1deg); }
+}
+.sprite-nod {
+  animation: sprite-nod-kf 0.7s ease-in-out;
+}
+
+/* Blink: quick scale pulse (simulates a blink) */
+@keyframes sprite-blink-kf {
+  0%, 100% { transform: scaleY(1); }
+  40% { transform: scaleY(0.85); }
+  50% { transform: scaleY(0.85); }
+  60% { transform: scaleY(1); }
+}
+.sprite-blink {
+  animation: sprite-blink-kf 0.4s ease-in-out;
+}
+
+/* Lean forward: tilt like looking at something */
+@keyframes sprite-lean-forward-kf {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  20% { transform: translateY(2px) rotate(5deg) translateX(2px); }
+  50% { transform: translateY(2px) rotate(5deg) translateX(2px); }
+  80% { transform: translateY(0) rotate(0deg); }
+}
+.sprite-lean-forward {
+  animation: sprite-lean-forward-kf 0.9s ease-in-out;
+}
+
+/* Doze: slow droop like nodding off */
+@keyframes sprite-doze-kf {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(2px) rotate(2deg); }
+  50% { transform: translateY(3px) rotate(3deg); }
+  70% { transform: translateY(2px) rotate(2deg); }
+}
+.sprite-doze {
+  animation: sprite-doze-kf 1.2s ease-in-out;
+}
+
+/* Sway: very gentle side-to-side like breathing while asleep */
+@keyframes sprite-sway-kf {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2px); }
+}
+.sprite-sway {
+  animation: sprite-sway-kf 1.5s ease-in-out;
+}
+
+/* Celebrating: gentle continuous bounce (while card is flashing) */
+@keyframes sprite-celebrate-kf {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.sprite-hop-loop {
+  animation: sprite-celebrate-kf 1.2s ease-in-out infinite;
+}
+
+/* Transit hop: quick bouncy walk cycle for sprites moving between zones */
+@keyframes sprite-transit-hop-kf {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-4px); }
+  65% { transform: translateY(-4px) scaleY(1.02); }
+}
+.sprite-transit-hop {
+  animation: sprite-transit-hop-kf 0.34s ease-in-out infinite;
+}
+
+/* Legacy aliases — kept for any stray references */
+.animate-bounce-sprite { }
+.animate-bounce-sprite-done { }
+
+/* Done card pulse — light green overlay over the whole card until acknowledged */
+@keyframes card-done-pulse {
+  0%, 100% {
+    opacity: 0.16;
+    box-shadow:
+      inset 0 0 0 1px rgba(88,216,152,0.45),
+      inset 0 0 14px rgba(88,216,152,0.18);
+  }
+  50% {
+    opacity: 0.28;
+    box-shadow:
+      inset 0 0 0 2px rgba(88,216,152,0.7),
+      inset 0 0 22px rgba(88,216,152,0.32);
+  }
+}
+
+.card-done-green-overlay,
+.card-done-flash {
+  background: rgba(88,216,152,0.55);
+  animation: card-done-pulse 1.5s ease-in-out infinite;
+  animation-fill-mode: forwards;
+}
+
+/* Reading letter — bounce in and out */
+@keyframes bounce-read {
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  30% { transform: scale(1.3) rotate(5deg); opacity: 1; }
+  50% { transform: scale(1) rotate(0deg); opacity: 1; }
+  80% { transform: scale(1.1) rotate(-5deg); opacity: 1; }
+  100% { transform: scale(0) rotate(10deg); opacity: 0; }
+}
+.animate-bounce-read {
+  animation: bounce-read 1s ease-in-out forwards;
+}
+
+/* Floating bubble — gentle bob */
+@keyframes bubble-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.animate-bubble-float {
+  animation: bubble-float 1.2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Agent orb recall/deploy animations ──────────────── */
+
+/* Recall: sprite shrinks into red energy */
+@keyframes recallShrink {
+  0%   { transform: translate(-50%, -50%) scale(1.8); opacity: 1; filter: brightness(1); }
+  40%  { filter: brightness(2) saturate(2) hue-rotate(-10deg); }
+  100% { transform: translate(-50%, -50%) scale(0); opacity: 0; filter: brightness(3) saturate(0); }
+}
+@keyframes recallPulse {
+  0%   { transform: scale(0.3); opacity: 0; }
+  25%  { transform: scale(1.2); opacity: 0.9; }
+  100% { transform: scale(0.1); opacity: 0; }
+}
+
+/* Agent orb flies in an arc (used for both recall and deploy) */
+@keyframes agent-orbFly {
+  0%   { left: var(--sx); top: var(--sy); transform: rotate(0deg) scale(1); }
+  40%  { top: var(--my); transform: rotate(270deg) scale(1.15); }
+  100% { left: var(--ex); top: var(--ey); transform: rotate(720deg) scale(1); }
+}
+
+/* Agent orb bounces up once then pops open (fades out) */
+@keyframes agent-orbPopOpen {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  35%  { transform: translateY(-20px) scale(1.1); opacity: 1; }
+  50%  { transform: translateY(-18px) scale(1.3); opacity: 0.6; }
+  100% { transform: translateY(-16px) scale(2); opacity: 0; }
+}
+
+/* Deploy: white circle expands to card rect (250ms), then fades out (250ms) */
+@keyframes deployCardMorph {
+  0% {
+    clip-path: circle(16px at var(--cx) var(--cy));
+    opacity: 1;
+  }
+  35% {
+    clip-path: circle(80% at var(--cx) var(--cy));
+    opacity: 1;
+  }
+  50% {
+    clip-path: inset(0 0 0 0 round 8px);
+    opacity: 1;
+  }
+  75% {
+    clip-path: inset(0 0 0 0 round 8px);
+    opacity: 0.5;
+  }
+  100% {
+    clip-path: inset(0 0 0 0 round 8px);
+    opacity: 0;
+  }
+}
+
+/* ─── Scanline toggle ─────────────────────────────────── */
+body.no-scanlines::before { display: none; }
+body.no-scanlines .gba-card {
+  background: var(--theme-card-bg);
+}
+body.no-scanlines .gba-card-selected {
+  background: var(--theme-card-selected-bg);
+}
+body.no-scanlines .gba-panel {
+  background: var(--theme-panel-bg);
+}
+
+.gba-modal-scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 9;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+}
+body.no-scanlines .gba-modal-scanlines::after { display: none; }
+body.no-scanlines .pc-box-local-scanlines { display: none; }
+
+/* ─── Theme semantic utility classes ───────────────────── */
+.theme-font-display { font-family: var(--theme-font-display); }
+.theme-font-body { font-family: var(--theme-font-body); }
+.theme-font-mono { font-family: var(--theme-font-mono); }
+.text-xs { font-size: var(--theme-type-xs); line-height: 1.35; }
+.text-s { font-size: var(--theme-type-s); line-height: 1.4; }
+.text-m { font-size: var(--theme-type-m); line-height: 1.45; }
+.text-l { font-size: var(--theme-type-l); line-height: 1.5; }
+.text-xl { font-size: var(--theme-type-xl); line-height: 1.55; }
+.theme-text-primary { color: var(--theme-text-primary); }
+.theme-text-secondary { color: var(--theme-text-secondary); }
+.theme-text-muted { color: var(--theme-text-muted); }
+.theme-text-faint { color: var(--theme-text-faint); }
+.theme-text-inverse { color: var(--theme-text-inverse); }
+.theme-text-accent { color: var(--theme-accent-blue); }
+.theme-text-success { color: var(--theme-accent-green); }
+.theme-text-warning { color: var(--theme-accent-yellow); }
+.theme-text-danger { color: var(--theme-accent-red); }
+.theme-text-diff-add { color: var(--theme-diff-add-text); }
+.theme-text-diff-remove { color: var(--theme-diff-remove-text); }
+.theme-text-diff-meta { color: var(--theme-diff-meta-text); }
+.theme-bg-panel-subtle { background: var(--theme-panel-subtle-bg); }
+.theme-bg-panel-muted { background: var(--theme-panel-muted-bg); }
+.theme-bg-panel-hover:hover { background: var(--theme-panel-hover-bg); }
+.theme-bg-dropdown-hover:hover { background: var(--theme-dropdown-hover-bg); }
+.theme-bg-dropdown-active { background: var(--theme-dropdown-active-bg); }
+.theme-bg-chat { background: var(--theme-chat-bg); }
+.theme-bg-chat-user { background: var(--theme-chat-message-user-bg); }
+.theme-bg-chat-assistant { background: var(--theme-chat-message-assistant-bg); }
+.theme-bg-chat-system { background: var(--theme-chat-message-system-bg); }
+.theme-bg-chat-tool { background: var(--theme-chat-tool-bg); }
+.theme-bg-diff-add { background: var(--theme-diff-add-bg); }
+.theme-bg-diff-remove { background: var(--theme-diff-remove-bg); }
+.theme-border-subtle { border-color: var(--theme-panel-divider); }
+.theme-border-panel { border-color: var(--theme-panel-border); }
+.theme-border-danger { border-color: var(--theme-accent-red); }
+.theme-modal-scrim { background: var(--theme-modal-scrim); }
+.theme-shadow-strong { box-shadow: var(--theme-shadow-strong); }
+
+body.theme-classic::before { display: none; }
+body.theme-classic ::-webkit-scrollbar-track { background: transparent; }
+body.theme-classic ::-webkit-scrollbar-thumb { background: var(--theme-panel-divider); border: none; }
+body.theme-classic ::-webkit-scrollbar-thumb:hover { background: var(--theme-panel-hover-bg); }
+
+/* ─── Thinking indicator (ChatPanel) ─────────────────────
+   Animated trailing dots after a verb like "Ruminating".
+   Pure CSS so we don't trigger React re-renders just to
+   shift a few characters.                                */
+.thinking-dots::after {
+  content: '';
+  display: inline-block;
+  animation: thinking-dots 1.4s steps(4, end) infinite;
+  width: 1.5em;
+  text-align: left;
+  letter-spacing: 0.05em;
+}
+@keyframes thinking-dots {
+  0%   { content: ''; }
+  25%  { content: '.'; }
+  50%  { content: '..'; }
+  75%  { content: '...'; }
+  100% { content: ''; }
+}
+
+/* Force all pre/code blocks inside the chat scroll area to stay within bounds */
+.overflow-x-hidden pre:not(.chat-code-pre),
+.overflow-x-hidden code:not(.chat-code-code) {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.chat-code-block {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.chat-code-code,
+.chat-code-code * {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.chat-code-copy {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.chat-code-pre {
+  max-width: 100%;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.chat-code-code {
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.theme-hover-text-primary:hover { color: var(--theme-text-primary); }
+.theme-hover-text-secondary:hover { color: var(--theme-text-secondary); }
+.theme-placeholder-faint::placeholder { color: var(--theme-text-faint); }
+.theme-placeholder-input::placeholder { color: var(--theme-text-secondary); opacity: 1; }
+.focus-theme-border-subtle:focus { border-color: var(--theme-panel-divider); }
+.chat-panel-output {
+  --theme-type-m: calc(var(--chat-panel-output-font-size) - 3px);
+  --theme-type-l: var(--chat-panel-output-font-size);
+  --theme-type-xl: calc(var(--chat-panel-output-font-size) + 2px);
+}
+
+html[data-theme="vscode"],
+html[data-theme="vscode-light"] {
+  --theme-type-xs: 7px;
+  --theme-type-s: 9px;
+  --theme-type-m: 11px;
+  --theme-type-l: 13px;
+  --theme-type-xl: 15px;
+}
+
+
+.activity-feed-row {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 0.45rem;
+  align-items: start;
+}
+
+.activity-feed-time {
+  grid-column: 1;
+  white-space: nowrap;
+}
+
+/* Agent card activity rows: wrap useful long command/text previews, then clamp. */
+.activity-feed-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}

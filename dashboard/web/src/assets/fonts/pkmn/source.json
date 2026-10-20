@@ -1,0 +1,57 @@
+{
+  "repository": "https://github.com/nue-of-k/pkmn",
+  "commit": "0719c3d73d0fcb35a7d14a06b7de73bc1784d8e0",
+  "fontUrl": "https://raw.githubusercontent.com/nue-of-k/pkmn/0719c3d73d0fcb35a7d14a06b7de73bc1784d8e0/ttf/pkmn_r.ttf",
+  "licenseUrl": "https://raw.githubusercontent.com/nue-of-k/pkmn/0719c3d73d0fcb35a7d14a06b7de73bc1784d8e0/LICENSE",
+  "license": "MIT",
+  "fontFile": "pkmn_r.ttf",
+  "fontSha256": "71071ad0cb09eb7360612c3f951c38bdd96a02bdf5f53726870731a1af7ed58a",
+  "fontSizeBytes": 89735,
+  "webFontFile": "pkmn_r.woff2",
+  "webFontSha256": "638f27a0afd0c4b57defa5911fbf3eec7a7451434f956ad8613f437c41dd7b1a",
+  "webFontSizeBytes": 9908,
+  "conversion": {
+    "tool": "fontTools",
+    "version": "4.66.0",
+    "steps": [
+      "TTFont(pkmn_r.ttf), recalcTimestamp=false, recalcBBoxes=false",
+      "rebuild Unicode cmap format 4 and 12 from only glyph IDs below maxp.numGlyphs",
+      "set OS/2 usFirstCharIndex=32 and usLastCharIndex=65509 from valid BMP cmap",
+      "save as TrueType to recalculate table checksums",
+      "fontTools.ttLib.woff2.compress to WOFF2"
+    ]
+  },
+  "cmapRepair": {
+    "removedInvalidRawMapping": {
+      "subtable": "platform 3, encoding 1, format 4",
+      "codepoint": "U+FFFF",
+      "glyphId": 65535,
+      "replacement": "U+FFFF maps to glyph 0 sentinel"
+    },
+    "validMappingsPreservedPerSubtable": 632,
+    "os2FirstCharIndex": 32,
+    "os2LastCharIndex": 65509,
+    "validation": "FontTools checkChecksums=2 passed for resaved TTF and WOFF2; format 4 and 12 mappings match parsed valid source mappings"
+  },
+  "family": "PKMN Regular",
+  "subfamily": "Regular",
+  "weight": 400,
+  "totalGlyphs": 633,
+  "cmapCodepointCount": 632,
+  "coverageSample": "マップ検証係作業中ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+  "coveredCodepoints": [
+    "U+30DE",
+    "U+30C3",
+    "U+30D7",
+    "U+0041-U+005A",
+    "U+0030-U+0039"
+  ],
+  "missingCodepoints": [
+    "U+691C",
+    "U+8A3C",
+    "U+4FC2",
+    "U+4F5C",
+    "U+696D",
+    "U+4E2D"
+  ]
+}

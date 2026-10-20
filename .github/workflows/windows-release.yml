@@ -1,0 +1,165 @@
+name: Windows release preparation
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Numeric MAJOR.MINOR.PATCH
+        required: true
+        default: '0.1.2'
+      sign:
+        description: Request SignPath signing (requires sponsorship and manual approval)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-2025
+    timeout-minutes: 35
+    env:
+      CGO_ENABLED: '1'
+      CGO_CFLAGS: '-DSQLITE_ENABLE_FTS5'
+      CGO_LDFLAGS: '-lm'
+      RELEASE_VERSION: ${{ inputs.version || '0.1.2' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.27.0'
+          cache-dependency-path: dashboard/go.sum
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24.16.0'
+          cache: npm
+          cache-dependency-path: dashboard/web/package-lock.json
+      - name: Install x64 GCC toolchain
+        id: msys2
+        uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+        with:
+          msystem: UCRT64
+          install: mingw-w64-ucrt-x86_64-gcc
+      - name: Select x64 compiler
+        shell: pwsh
+        env:
+          MSYS2_ROOT: ${{ steps.msys2.outputs.msys2-location }}
+        run: |
+          $compiler = Join-Path $env:MSYS2_ROOT 'ucrt64\bin'
+          if (!(Test-Path (Join-Path $compiler 'gcc.exe'))) { throw 'An x64 GCC toolchain is required.' }
+          $target = & (Join-Path $compiler 'gcc.exe') -dumpmachine
+          if ($LASTEXITCODE -ne 0 -or $target -cne 'x86_64-w64-mingw32') { throw 'Unexpected GCC target.' }
+          $compiler | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: Build and verify exact executable
+        shell: pwsh
+        run: ./scripts/build.ps1 -Version $env:RELEASE_VERSION
+      - name: Go tests
+        shell: pwsh
+        working-directory: dashboard
+        run: |
+          go test -tags sqlite_fts5 -ldflags='-s -w' ./...
+          if ($LASTEXITCODE -ne 0) { throw 'Go tests failed.' }
+      - name: Inventory licenses and package unsigned preview
+        shell: pwsh
+        run: |
+          ./scripts/dependencies.ps1
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          if (!(Test-Path -LiteralPath $iscc)) { throw 'Inno Setup is missing.' }
+          ./scripts/package.ps1 -Version $env:RELEASE_VERSION -IsccPath $iscc
+          $portable = New-Item -ItemType Directory -Path artifacts/portable
+          Copy-Item artifacts/Pokegents.exe,LICENSE,THIRD_PARTY_NOTICES.md,PRIVACY.md,README.md -Destination $portable
+          Copy-Item artifacts/notices -Destination $portable -Recurse
+          Copy-Item artifacts/license-inventory.json,artifacts/sbom-npm.json,artifacts/go-module-inventory.json,artifacts/go-build-info.txt,artifacts/build-manifest.json -Destination $portable
+          Compress-Archive -Path artifacts/portable/* -DestinationPath "artifacts/Pokegents-$env:RELEASE_VERSION-windows-x64-unsigned.zip"
+          @{ repository=$env:GITHUB_REPOSITORY; commit=$env:GITHUB_SHA; run_id=$env:GITHUB_RUN_ID; signed=$false } |
+            ConvertTo-Json | Set-Content artifacts/release-provenance.json -Encoding utf8
+          Get-FileHash artifacts/Pokegents.exe,artifacts/Pokegents-Setup-*-x64.exe,artifacts/Pokegents-*-unsigned.zip -Algorithm SHA256 |
+            Select-Object @{n='file';e={Split-Path $_.Path -Leaf}},Hash |
+            ConvertTo-Json | Set-Content artifacts/checksums.json -Encoding utf8
+      - name: Upload only application for SignPath origin verification
+        id: signing_input
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: signpath-input
+          path: artifacts/Pokegents.exe
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload unsigned preview and public inventories
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: unsigned-preview
+          path: |
+            artifacts/Pokegents-*-unsigned.zip
+            artifacts/Pokegents-Setup-*-x64.exe
+            artifacts/build-manifest.json
+            artifacts/release-provenance.json
+            artifacts/checksums.json
+          if-no-files-found: error
+          retention-days: 14
+    outputs:
+      artifact_id: ${{ steps.signing_input.outputs.artifact-id }}
+
+  sign:
+    if: github.event_name == 'workflow_dispatch' && inputs.sign && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: windows-2025
+    timeout-minutes: 20
+    environment: signpath-release
+    permissions:
+      contents: read
+      actions: read
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+    steps:
+      - name: Check service configuration
+        shell: pwsh
+        env:
+          ORGANIZATION: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          PROJECT: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          POLICY: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          CONFIGURATION: ${{ vars.SIGNPATH_ARTIFACT_CONFIGURATION_SLUG }}
+          TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
+        run: |
+          if ($env:RELEASE_VERSION -cnotmatch '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$') { throw 'Invalid version.' }
+          foreach ($name in 'ORGANIZATION','PROJECT','POLICY','CONFIGURATION','TOKEN') {
+            if (![Environment]::GetEnvironmentVariable($name)) { throw "Missing SignPath setting: $name" }
+          }
+      - name: Request manually approved release signature
+        uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092 # v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          artifact-configuration-slug: ${{ vars.SIGNPATH_ARTIFACT_CONFIGURATION_SLUG }}
+          github-artifact-id: ${{ needs.build.outputs.artifact_id }}
+          parameters: |
+            version: ${{ toJSON(inputs.version) }}
+          wait-for-completion: true
+          wait-for-completion-timeout-in-seconds: '600'
+          output-artifact-directory: signed
+      - name: Verify trusted timestamped signature and metadata
+        shell: pwsh
+        run: |
+          $files = @(Get-ChildItem signed -File -Recurse)
+          if ($files.Count -ne 1 -or $files[0].Name -cne 'Pokegents.exe') { throw 'Unexpected signed artifact contents.' }
+          $signature = Get-AuthenticodeSignature -LiteralPath $files[0].FullName
+          if ($signature.Status -ne 'Valid' -or !$signature.TimeStamperCertificate) { throw 'A trusted timestamped signature is required.' }
+          $info = $files[0].VersionInfo
+          if ($info.ProductName -cne 'Pokegents' -or $info.ProductVersion -cne "$env:RELEASE_VERSION.0" -or $info.FileVersion -cne "$env:RELEASE_VERSION.0") { throw 'Signed metadata mismatch.' }
+      - name: Upload reviewed-candidate signed executable (no publication)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: signed-application-candidate
+          path: signed/Pokegents.exe
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,11 @@
+{
+  "session_id": "test-acp-session-id",
+  "state": "busy",
+  "detail": "thinking…",
+  "cwd": "",
+  "timestamp": "2026-10-20T16:19:34Z",
+  "busy_since": "2026-10-20T16:19:34Z",
+  "last_summary": "",
+  "last_trace": "",
+  "user_prompt": "hello"
+}
